@@ -1,4 +1,4 @@
-<div class="main-div" *ngIf="content && content.id">
+<div class="main-div" *ngIf="content">
   <mat-card class="content-card">
     <mat-card-title>
       <p appHoverEffect>{{ content.title }}</p>
@@ -10,16 +10,15 @@
         content.imgURL ? content.imgURL : '../../assets/img/default.jpg'
       }}" alt="content-image" />
     <mat-card-content>
+      <p><strong>Description:</strong> {{ content.description }}</p>
       <p><strong>PRIZE:</strong> {{ content.prize }}</p>
       <p>
         <strong>SIZE:</strong>
         <span *ngFor="let size of content?.tags" appHoverEffect class="tag">{{ " " }}{{ size }}</span>
       </p>
-      <button mat-raised-button color="primary" type="button" (click)="goToContentDetail()">View
-        Details</button>
     </mat-card-content>
     <mat-card-actions>
-      <app-modify-content [contentId]="content.id" (updatedContentEvent)="updateContent($event)"></app-modify-content>
+      <button mat-raised-button color="primary" type="button" (click)="goToContentList()">Go to Content List</button>
     </mat-card-actions>
   </mat-card>
 </div>
