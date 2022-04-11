@@ -1,8 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ContentService } from '../services/content.service';
-import { Content } from '../helper-files/content';
 import { MessageService } from '../services/message.service';
-
+import { Content } from '../helper-files/content';
 @Component({
   selector: 'app-content-list',
   templateUrl: './content-list.component.html',
@@ -20,12 +19,9 @@ export class ContentListComponent implements OnInit {
 
   // list of books
   contentList: Content[] = [];
-  content: boolean;
-  noContent: boolean;
+
   result: any;
-  filteredContentData: Content[] = [];
-  @Input() contentId: number;
-  @Input() newContent: Content;
+  filteredData: Content[] = [];
 
   constructor(
     private contentService: ContentService,
@@ -38,23 +34,12 @@ export class ContentListComponent implements OnInit {
   getContentList() {
     this.contentService.getContent().subscribe((content) => {
       this.contentList = content;
-      this.filteredContentData = [...this.contentList];
+      this.filteredData = [...this.contentList];
     });
   }
 
-  ngOnChanges() {
-    if (this.newContent) {
-      this.getContentList();
-    }
-  }
-  initializeContentDisplay() {
-    this.content = false;
-    this.noContent = false;
-  }
-
-  searchContentInList(text: any) {
+  searchContent(text: any) {
     if (text) {
-      this.initializeContentDisplay();
       let searchtext = text;
       text = text.replace(/^\s+|\s+$/g, '');
       text = text.replace(/ +(?= )/g, '');
@@ -65,14 +50,7 @@ export class ContentListComponent implements OnInit {
         return data !== null;
       });
 
-      // this.result = this.contentList.filter(function (item: any) {
-      //   return item.title
-      //     .toLocaleLowerCase()
-      //     .includes(text.toLocaleLowerCase());
-      // });
-
-      this.result.length ? (this.content = true) : (this.noContent = true);
-      if (this.content && this.result.length) {
+      if (this.result.length && this.result.length > 0) {
         this.messageService.add(
           `Content Items found with search text: ${searchtext}`
         );
@@ -80,11 +58,9 @@ export class ContentListComponent implements OnInit {
         this.messageService.add(`Content Item not found`);
       }
 
-      this.filteredContentData = [...this.contentList];
+      this.filteredData = [...this.contentList];
 
-      this.filteredContentData = this.filteredContentData.filter(function (
-        item: any
-      ) {
+      this.filteredData = this.filteredData.filter(function (item: any) {
         let data = item.title.match(text);
         if (data) {
           item.type = item.type + ' highlightSearch';
@@ -94,6 +70,12 @@ export class ContentListComponent implements OnInit {
           return item;
         }
       });
+    } else {
+      this.messageService.add(`Please Enter Content Title to Search`);
     }
+  }
+
+  getNewContact(event: any) {
+    this.getContentList();
   }
 }

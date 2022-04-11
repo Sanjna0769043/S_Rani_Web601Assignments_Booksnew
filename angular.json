@@ -6,7 +6,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "my-favourite-books": {
+    "s-rani-my-favourite-books": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -23,17 +23,14 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/my-favourite-books",
+            "outputPath": "dist/s-rani-my-favourite-books",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/purple-green.css",
-              "src/styles.scss"
-            ],
+            "styles": ["src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -73,10 +70,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "my-favourite-books:build:production"
+              "browserTarget": "s-rani-my-favourite-books:build:production"
             },
             "development": {
-              "browserTarget": "my-favourite-books:build:development"
+              "browserTarget": "s-rani-my-favourite-books:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +81,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "my-favourite-books:build"
+            "browserTarget": "s-rani-my-favourite-books:build"
           }
         },
         "test": {
@@ -96,15 +93,12 @@
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/purple-green.css",
-              "src/styles.scss"
-            ],
+            "styles": ["src/styles.scss", "src/theme.scss"],
             "scripts": []
           }
         }
       }
     }
   },
-  "defaultProject": "my-favourite-books"
+  "defaultProject": "s-rani-my-favourite-books"
 }
