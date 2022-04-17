@@ -16,8 +16,8 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { CreateContentComponent } from '../create-content/create-content.component';
-import { UpdateContentComponent } from '../update-content/update-content.component';
+import { AddContentDialogComponent } from '../add-content-dialog/add-content-dialog.component';
+import { EditContentDialogComponent } from '../edit-content-dialog/edit-content-dialog.component';
 
 @Component({
   selector: 'app-modify-content',
@@ -68,7 +68,7 @@ export class ModifyContentComponent implements OnInit {
   }
 
   addContent() {
-    this.addDialogRef = this.dialog.open(CreateContentComponent);
+    this.addDialogRef = this.dialog.open(AddContentDialogComponent);
 
     this.addDialogRef.afterClosed().subscribe((result: any) => {
       if (result && result.event && result.event === 'Add') {
@@ -85,7 +85,7 @@ export class ModifyContentComponent implements OnInit {
     this.contentService
       .getContentDetails(this.contentId)
       .subscribe((content) => {
-        this.editDialogRef = this.dialog.open(UpdateContentComponent, {
+        this.editDialogRef = this.dialog.open(EditContentDialogComponent, {
           data: content,
         });
         this.editDialogRef.afterClosed().subscribe((result: any) => {

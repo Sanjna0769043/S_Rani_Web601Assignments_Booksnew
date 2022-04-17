@@ -1,41 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { Content } from './helper-files/content';
-import { MessageService } from './services/message.service';
-import { ContentService } from './services/content.service';
-
+import { LogUpdateService } from './services/log-update.service';
+import { ApplicationRef } from '@angular/core';
+import { SwUpdate } from '@angular/service-worker';
+import { first, interval, concat } from 'rxjs';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'MyFavouriteBooks';
-  contentId: number;
-  newContent: Content;
-  content: Content;
-  constructor(
-    public messageService: MessageService,
-    private contentService: ContentService
-  ) {}
+  title = 'S_Rani_MyFavouriteBooks';
+  constructor(private logService: LogUpdateService, private appRef: ApplicationRef, private updates: SwUpdate) { }
 
-  ngOnInit(): void {}
-
-  getContentDetails(id: string) {
-    this.contentId = parseInt(id);
-    this.contentService.getContentDetails(parseInt(id)).subscribe(
-      (content) => {
-        this.content = content;
-        this.messageService.add(`Content Item with id:${content.id}`);
-      },
-      (err: any) => {
-        this.messageService.add(`Content Item with Id ${id} Not Found`);
-      }
-    );
+  ngOnInit(): void {
+    this.logService.init();
+    // Poll for updates with half hours
+    const appIsStable$ = this.appRef.isStable.pipe(
+      first(isStable => isStable === true));
+    const everyHalfHours$ = interval(1800 *
+      1000);
+    const everyHalfHoursOnceAppIsStable$ =
+      concat(appIsStable$, everyHalfHours$);
+    everyHalfHoursOnceAppIsStable$.subscribe(
+      () => this.updates.checkForUpdate());
   }
 
-  getSearchNameValue(event: any) {}
-
-  getNewContact(event: any) {
-    this.newContent = event;
-  }
 }

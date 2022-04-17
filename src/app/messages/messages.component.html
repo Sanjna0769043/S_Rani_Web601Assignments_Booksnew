@@ -1,20 +1,12 @@
-<div style="margin-top: 25px">
-  <mat-card class="message-card">
-    <mat-card-title>Messages</mat-card-title>
-    <mat-card-content>
-      <div *ngFor="let message of messageService.messages">
-        <div style="padding: 5px; margin: 5px; border: 1px solid white">
-          {{ message }}
-        </div>
-      </div>
-      <button
-        mat-raised-button
-        color="accent"
-        style="margin-top: 20px"
-        (click)="messageService.clear()"
-      >
-        Clear messages
-      </button>
-    </mat-card-content>
-  </mat-card>
+<div *ngIf="messageService.messages.length" class="message">
+  <h2>Messages</h2>
+  <div *ngFor="let message of messageService.messages">{{ message }}</div>
+  <button
+    mat-raised-button
+    color="accent"
+    style="margin-top: 10px"
+    (click)="messageService.clear()"
+  >
+    Clear messages
+  </button>
 </div>
